@@ -1,19 +1,41 @@
 plugins {
-    id("java")
+    java
+    application
 }
 
 group = "com.github.scalerock.snmp"
-version = "1.0-SNAPSHOT"
+version = libs.versions.project.get()
 
 repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
+    }
+}
+
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(libs.gjson)
+    implementation(libs.jetbrains.annotations)
+
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.bundles.junit)
+}
+
+application {
+    mainClass.set("com.github.scalerock.snmp.Main")
 }
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    }
+    reports {
+        html.required.set(true)
+        junitXml.required.set(true)
+    }
 }
