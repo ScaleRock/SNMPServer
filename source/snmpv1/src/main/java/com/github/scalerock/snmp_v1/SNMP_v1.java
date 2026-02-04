@@ -25,4 +25,5 @@ SOFTWARE.
 package com.github.scalerock.snmp_v1;
 
 public class SNMP_v1 {
+
 }
