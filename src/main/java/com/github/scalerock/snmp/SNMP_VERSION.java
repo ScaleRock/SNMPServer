@@ -25,9 +25,8 @@ SOFTWARE.
 
 package com.github.scalerock.snmp;
 
-
-public class Main {
-    public static void main(String[] args) {
-
-    }
+public enum SNMP_VERSION {
+    SNMP_V1,
+    SNMP_V2C,
+    SNMP_V3
 }

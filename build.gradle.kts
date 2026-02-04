@@ -20,13 +20,21 @@ dependencies {
     implementation(libs.gjson)
     implementation(libs.jetbrains.annotations)
 
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.bundles.junit)
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
+    testRuntimeOnly(libs.junit.launch)
 }
 
 application {
     mainClass.set("com.github.scalerock.snmp.Main")
 }
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = application.mainClass.get()
+    }
+}
+
 
 tasks.test {
     useJUnitPlatform()

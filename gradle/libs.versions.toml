@@ -2,21 +2,16 @@
 project = "0.1.1"
 java = "21"
 gjson = "2.13.2"
-junit = "5.14.1"
+junit = "6.0.2"
 jetbrains-annotations = "24.1.0"
 
 [libraries]
 
-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-launch = {module = "org.junit.platform:junit-platform-launcher", version.ref = "junit"}
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 
 gjson = { module = "com.google.code.gson:gson", version.ref = "gjson" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 
-[bundles]
 
-junit = [
-    "junit-api",
-    "junit-engine",
-]

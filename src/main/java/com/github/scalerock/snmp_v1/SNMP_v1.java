@@ -22,12 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+package com.github.scalerock.snmp_v1;
 
-package com.github.scalerock.snmp;
-
-
-public class Main {
-    public static void main(String[] args) {
-
-    }
+public class SNMP_v1 {
 }
