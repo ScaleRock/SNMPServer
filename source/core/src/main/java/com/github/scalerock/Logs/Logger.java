@@ -40,6 +40,21 @@ import java.time.format.DateTimeFormatter;
 public class Logger {
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS z");
 
+    /**White - ASCI color*/
+    private static final String defult_color = "\u001B[0m";
+    /**Grean - ASCI color*/
+    private static final String info_color = "\u001B[32m";
+    /**Blue - ASCI color*/
+    private static final String debug_color = "\u001B[36m";
+    /**Yellow - ASCI color*/
+    private static final String warn_color = "\u001B[33m";
+    /**Read - ASCI color*/
+    private static final String error_color = "\u001B[31m";
+
+
+    /**
+        <code>LEVEL</code> - enume for log leven (ig. info, debug, etc.)
+     */
     private enum LEVEL {
         INFO,
         DEBUG,
@@ -66,108 +81,179 @@ public class Logger {
                             @NotNull String msg,
                             @NotNull LEVEL level) {
 
-        System.out.println(colorFor(level) + format_log(
-                ZonedDateTime.now(ZoneId.systemDefault()).format(timeFormatter),
-                Thread.currentThread().getName(),
+        final var time = ZonedDateTime.now(ZoneId.systemDefault()).format(timeFormatter);
+        final var thread = Thread.currentThread().getName();
+
+        final var out_log = colorFor(level) + format_log(
+                time,
+                thread,
                 level.name(),
                 class_name,
                 msg
-        ) + "\u001B[0m");
+        ) + defult_color;
+
+        System.out.println(out_log);
     }
     private static void log(@NotNull String class_name,
                             @NotNull String msg,
                             @NotNull LEVEL level,
                             @NotNull Throwable throwable) {
-        System.out.println(colorFor(level) + format_log(
-                ZonedDateTime.now(ZoneId.systemDefault()).format(timeFormatter),
-                Thread.currentThread().getName(),
+
+        final var time = ZonedDateTime.now(ZoneId.systemDefault()).format(timeFormatter);
+        final var thread = Thread.currentThread().getName();
+
+        final var out_log = colorFor(level) + format_log(
+                time,
+                thread,
                 level.name(),
                 class_name,
                 msg
-        ) + "\u001B[0m");
+        ) + defult_color;
+
+        System.out.println(out_log);
         throwable.printStackTrace(System.out);
     }
 
+    /** Returns a not ASCI encode color*/
+    @Contract(pure = true)
+    private static @NotNull String colorFor(@NotNull LEVEL level) {
+        return switch (level) {
+            case DEBUG -> debug_color;
+            case INFO -> info_color;
+            case WARN -> warn_color;
+            case ERROR -> error_color;
+            default -> defult_color;
+        };
+    }
+
+    /**
+     *  Log info
+     * @param clazz Class whitch use loger
+     * @param msg message
+     */
     public static void INFO(Class<?> clazz, @NotNull String msg){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.INFO
         );
     }
+
+    /**
+     * Log info with throwable
+     * @param clazz Class which uses logger
+     * @param msg - message
+     * @param throwable exception to log
+     */
     public static void INFO(Class<?> clazz,
                             @NotNull String msg,
                             @NotNull Throwable throwable){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.INFO,
                 throwable
         );
     }
 
+    /**
+     * Log debug info
+     * @param clazz Class which uses logger
+     * @param msg message
+     */
     public static void DEBUG(Class<?> clazz, @NotNull String msg){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.DEBUG
         );
     }
+
+    /**
+     * Log debug info with throwable
+     * @param clazz Class which uses logger
+     * @param msg - message
+     * @param throwable exception to log
+     */
     public static void DEBUG(Class<?> clazz,
-                            @NotNull String msg,
-                            @NotNull Throwable throwable){
+                             @NotNull String msg,
+                             @NotNull Throwable throwable){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.DEBUG,
                 throwable
         );
     }
 
+    /**
+     * Log warning message
+     * @param clazz Class which uses logger
+     * @param msg message
+     */
     public static void WARN(Class<?> clazz, @NotNull String msg){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.WARN
         );
     }
+
+    /**
+     * Log warning message with throwable
+     * @param clazz Class which uses logger
+     * @param msg message
+     * @param throwable exception to log
+     */
     public static void WARN(Class<?> clazz,
                             @NotNull String msg,
                             @NotNull Throwable throwable){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.WARN,
                 throwable
         );
     }
 
+    /**
+     * Log error message
+     * @param clazz Class which uses logger
+     * @param msg message
+     */
     public static void ERROR(Class<?> clazz, @NotNull String msg){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.ERROR
         );
     }
+
+    /**
+     * Log error message with throwable
+     * @param clazz Class which uses logger
+     * @param msg message
+     * @param throwable exception to log
+     */
     public static void ERROR(Class<?> clazz,
-                            @NotNull String msg,
-                            @NotNull Throwable throwable){
+                             @NotNull String msg,
+                             @NotNull Throwable throwable){
+        final var class_name = (clazz == null) ? "Unknown" : clazz.getSimpleName();
         log(
-                (clazz == null) ? "Unknown" : clazz.getSimpleName(),
+                class_name,
                 msg,
                 LEVEL.ERROR,
                 throwable
         );
     }
 
-    @Contract(pure = true)
-    private static @NotNull String colorFor(@NotNull LEVEL level) {
-        return switch (level) {
-            case DEBUG -> "\u001B[36m";
-            case INFO -> "\u001B[32m";
-            case WARN -> "\u001B[33m";
-            case ERROR -> "\u001B[31m";
-            default -> "\u001B[0m";
-        };
-    }
+
+
 }

@@ -24,6 +24,9 @@ SOFTWARE.
 
 package com.github.scalerock.snmp_v1;
 
+/**
+ <code>SNMP_v1</code> - This is an implementation of SNMP version 1 based on the RFC 1157 standard.
+ */
 public class SNMP_v1 {
 
 }

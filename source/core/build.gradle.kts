@@ -22,3 +22,9 @@ dependencies {
 application {
     mainClass.set("com.github.scalerock.snmp.Main")
 }
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = application.mainClass.get()
+    }
+}

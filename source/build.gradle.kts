@@ -1,6 +1,6 @@
 plugins {
     java
-    application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.github.scalerock.snmp"
@@ -29,6 +29,7 @@ subprojects {
 
 
     tasks.test {
+        maxParallelForks = Runtime.getRuntime().availableProcessors()
         useJUnitPlatform()
         testLogging {
             events("passed", "skipped", "failed")
@@ -38,15 +39,12 @@ subprojects {
             html.required.set(true)
             junitXml.required.set(true)
         }
+
     }
 }
 
-application {
-    mainClass.set("com.github.scalerock.snmp.Main")
-}
-
-tasks.jar {
+tasks.shadowJar {
     manifest {
-        attributes["Main-Class"] = application.mainClass.get()
+        attributes["Main-Class"] = "com.github.scalerock.snmp.Main"
     }
 }
